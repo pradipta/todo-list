@@ -11,6 +11,8 @@ public class TaskService {
     @Autowired
     private TaskRepository repo;
 
+    //TODO handle exceptions
+
     public List<Task> getAllTask(){
         return repo.findAll();
     }
@@ -29,7 +31,8 @@ public class TaskService {
 
     public Task markDone(String id) {
         //repo.findById(id).get().setIsDone(true);
-        Task task = repo.findById(id).get();
+        //TODO: figure out update in one line lambda
+        Task task = repo.findById(id).get();    //TODO: handle empty optional
         task.setIsDone(true);
         return repo.save(task);
     }
