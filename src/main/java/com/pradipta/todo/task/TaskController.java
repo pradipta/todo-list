@@ -1,6 +1,8 @@
 package com.pradipta.todo.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +33,8 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/tasks/markDone/{id}")
-    public Task markDone(@PathVariable String id){
-        return service.markDone(id);
+    public ResponseEntity<?> markDone(@PathVariable String id){
+        return new ResponseEntity(service.markDone(id), HttpStatus.OK);
+        //return service.markDone(id);
     }
 }
