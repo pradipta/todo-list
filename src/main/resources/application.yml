@@ -1,15 +1,15 @@
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/courses
+    url: jdbc:mysql://localhost:3306/todo
     username: root
     password:
     tomcat:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/courses
+      url: jdbc:mysql://localhost:3306/todo
     hikari:
       driver-class-name: com.mysql.jdbc.Driver
-      jdbc-url: jdbc:mysql://localhost:3306/courses
+      jdbc-url: jdbc:mysql://localhost:3306/todo
 
   jpa:
     hibernate:
