@@ -14,9 +14,15 @@ public class TaskController {
     @Autowired
     private TaskService service;
 
+    @GetMapping("")
+    public String welcome(){
+        return "Welcome";
+    }
+
     @RequestMapping("/tasks")
     public List<Task> getAllTask(HttpServletRequest req){
         String user = req.getUserPrincipal().getName();
+//        System.out.println(user);
         return service.getAllTask();
     }
 
