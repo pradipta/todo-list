@@ -29,10 +29,10 @@ public class TaskService {
         return repo.save(task);
     }
 
-    public Task markDone(String id) {
+    public Task markDone(int id) {
         //repo.findById(id).get().setIsDone(true);
         //TODO: figure out update in one line lambda
-        Task task = repo.findById(id).get();    //TODO: handle empty optional
+        Task task = repo.findById((long)id).get();    //TODO: handle empty optional
         task.setIsDone(true);
         return repo.save(task);
     }

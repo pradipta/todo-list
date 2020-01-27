@@ -41,6 +41,6 @@ public class TaskController {
     @RequestMapping(method = RequestMethod.PUT, value = "/tasks/markDone/{id}")
     public ResponseEntity<?> markDone(@PathVariable String id, HttpServletRequest req){
         String user = req.getUserPrincipal().getName();
-        return new ResponseEntity(service.markDone(id), HttpStatus.OK);
+        return new ResponseEntity(service.markDone(Integer.parseInt(id)), HttpStatus.OK);
     }
 }
