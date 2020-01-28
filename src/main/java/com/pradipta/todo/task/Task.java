@@ -19,7 +19,7 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     private String text;
     private Boolean isDone = Boolean.FALSE;
@@ -27,7 +27,7 @@ public class Task {
     private LocalDateTime creationDate;
 
     public Task(int id, String text, Date date){
-        this.id = (long)id;
+        this.id = id;
         this.text = text;
         this.isDone = Boolean.FALSE;
     }
