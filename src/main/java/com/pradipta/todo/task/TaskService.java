@@ -1,8 +1,11 @@
 package com.pradipta.todo.task;
 
+import com.pradipta.todo.dto.UserToTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +29,16 @@ public class TaskService {
     }
 
     public Task addTask(Task task){
+
         return repo.save(task);
+    }
+
+//    public List<UserToTask> getMapping(){
+//        return repo.getMap();
+//    }
+
+    public List<Task> getTaskForUser(int id){
+        return repo.getTasksForUser(id);
     }
 
     public Task markDone(int id) {

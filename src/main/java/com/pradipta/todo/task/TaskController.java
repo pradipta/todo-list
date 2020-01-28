@@ -1,5 +1,6 @@
 package com.pradipta.todo.task;
 
+import com.pradipta.todo.dto.UserToTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,11 @@ public class TaskController {
     @GetMapping("")
     public String welcome(){
         return "Welcome";
+    }
+
+    @GetMapping("/map/{id}")
+    public List<Task> getMap(@PathVariable String id){
+        return service.getTaskForUser(Integer.parseInt(id));
     }
 
     @RequestMapping("/tasks")
