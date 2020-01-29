@@ -2,9 +2,11 @@ package com.pradipta.todo.task;
 
 import com.pradipta.todo.dto.UserToTask;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
@@ -16,11 +18,10 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
     //GetCompletedTasks
     //AddTask
     //Delete Task
-/*   @Query("SELECT new com.pradipta./t/odo.dto.UserToTask(u.id, t.id) from User u JOIN u.tasks t")*/
-//    public List<UserToTask> getMap();
     //GetTaskByUserId
 
-    @Query("Select t.id, t.text,t.isDone,u.id,u.username from User u JOIN u.tasks t where u.id = :id")
-    public List<Task> getTasksForUser(@Param("id") int id);
-
+    @Transactional
+    @Modifying
+    @Query("Update Task set user_task_fk = :user where id= :id")
+    void updateTask(@Param("id") int id, @Param("user")String user);
 }

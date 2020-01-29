@@ -10,6 +10,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class UserToTask {
-    private int user_id;
-    private Long task_id;
+    private String user_name;
+    private int task_id;
 }

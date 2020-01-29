@@ -25,6 +25,7 @@ public class Task {
     private Boolean isDone = Boolean.FALSE;
     @CreationTimestamp
     private LocalDateTime creationDate;
+    //private String user_task_fk = null;
 
     public Task(int id, String text, Date date){
         this.id = id;

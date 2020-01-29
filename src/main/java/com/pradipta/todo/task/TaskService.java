@@ -1,10 +1,11 @@
 package com.pradipta.todo.task;
 
 import com.pradipta.todo.dto.UserToTask;
+import com.pradipta.todo.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +14,8 @@ import java.util.stream.Collectors;
 public class TaskService {
     @Autowired
     private TaskRepository repo;
+    @Autowired
+    private UserRepository userRepository;
 
     //TODO handle exceptions
 
@@ -33,19 +36,16 @@ public class TaskService {
         return repo.save(task);
     }
 
-//    public List<UserToTask> getMapping(){
-//        return repo.getMap();
-//    }
-
-    public List<Task> getTaskForUser(int id){
-        return repo.getTasksForUser(id);
-    }
-
     public Task markDone(int id) {
         //repo.findById(id).get().setIsDone(true);
         //TODO: figure out update in one line lambda
         Task task = repo.findById(id).get();    //TODO: handle empty optional
         task.setIsDone(true);
         return repo.save(task);
+    }
+
+    public void updateTask(int id, Task task, String user) {
+        repo.updateTask(id, user);
+        userRepository.findByUsername(user).get().getTasks().add(task);
     }
 }

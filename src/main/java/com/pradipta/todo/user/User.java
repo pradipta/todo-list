@@ -16,14 +16,15 @@ import java.util.List;
 @Getter
 @Setter
 public class User {
-    @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Id
     private String username;
     private String password;
     private Boolean active;
     private String roles;
     @OneToMany(targetEntity = Task.class,cascade = CascadeType.ALL)
-    @JoinColumn(name = "userTask_fk", referencedColumnName = "id")
+    @JoinColumn(name = "user_task_fk", referencedColumnName = "username")
     private List<Task> tasks;
 }
