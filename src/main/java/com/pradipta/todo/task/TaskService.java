@@ -1,8 +1,12 @@
 package com.pradipta.todo.task;
 
+import com.pradipta.todo.dto.UserToTask;
+import com.pradipta.todo.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +14,8 @@ import java.util.stream.Collectors;
 public class TaskService {
     @Autowired
     private TaskRepository repo;
+    @Autowired
+    private UserRepository userRepository;
 
     //TODO handle exceptions
 
@@ -26,6 +32,7 @@ public class TaskService {
     }
 
     public Task addTask(Task task){
+
         return repo.save(task);
     }
 
@@ -35,5 +42,10 @@ public class TaskService {
         Task task = repo.findById(id).get();    //TODO: handle empty optional
         task.setIsDone(true);
         return repo.save(task);
+    }
+
+    public void updateTask(int id, Task task, String user) {
+        repo.updateTask(id, user);
+        userRepository.findByUsername(user).get().getTasks().add(task);
     }
 }
