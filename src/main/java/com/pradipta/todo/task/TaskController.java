@@ -24,33 +24,31 @@ public class TaskController {
     @RequestMapping("/tasks")
     public List<Task> getAllTask(HttpServletRequest req) {
         String user = req.getUserPrincipal().getName();
-        return service.getAllTask();
+        return service.getMyTask(user);
     }
 
     @RequestMapping("/tasks/pending")
     public List<Task> getPendingTask(HttpServletRequest req) {
         String user = req.getUserPrincipal().getName();
-        return service.getPendingTask();
+        return service.getPendingTask(user);
     }
 
     @RequestMapping("/tasks/completed")
     public List<Task> getCompletedTask(HttpServletRequest req) {
         String user = req.getUserPrincipal().getName();
-        return service.getCompletedTask();
+        return service.getCompletedTask(user);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/tasks")
     public Task addTask(@RequestBody Task task, HttpServletRequest req) {
         String user = req.getUserPrincipal().getName();
-        int id = service.addTask(task).getId();
-        service.updateTask(id, task, user);
-
-        return task;
+        return service.addTask(task, user);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/tasks/markDone/{id}")
-    public ResponseEntity<?> markDone(@PathVariable String id, HttpServletRequest req) {
+    public String markDone(@PathVariable String id, HttpServletRequest req) {
         String user = req.getUserPrincipal().getName();
-        return new ResponseEntity(service.markDone(Integer.parseInt(id)), HttpStatus.OK);
+        return service.markDone(Integer.parseInt(id), user);
     }
+
 }
