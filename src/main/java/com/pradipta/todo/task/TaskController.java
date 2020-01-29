@@ -1,51 +1,54 @@
 package com.pradipta.todo.task;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pradipta.todo.utils.Util;
+import com.pradipta.todo.App;
+import com.pradipta.todo.dto.UserToTask;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@Controller
+@RestController
 public class TaskController {
     @Autowired
     private TaskService service;
 
+    @GetMapping("")
+    public String welcome() {
+        return "Welcome";
+    }
+
     @RequestMapping("/tasks")
-    public List<Task> getAllTask() {
-        return service.getAllTask();
+    public List<Task> getAllTask(HttpServletRequest req) {
+        String user = req.getUserPrincipal().getName();
+        return service.getMyTask(user);
     }
 
     @RequestMapping("/tasks/pending")
-    public List<Task> getPendingTask() {
-        return service.getPendingTask();
+    public List<Task> getPendingTask(HttpServletRequest req) {
+        String user = req.getUserPrincipal().getName();
+        return service.getPendingTask(user);
     }
 
     @RequestMapping("/tasks/completed")
-    public List<Task> getCompletedTask() {
-        return service.getCompletedTask();
+    public List<Task> getCompletedTask(HttpServletRequest req) {
+        String user = req.getUserPrincipal().getName();
+        return service.getCompletedTask(user);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/tasks")
-    public ResponseEntity<?> addTask(@RequestBody Task task) {
-        ObjectMapper map = new ObjectMapper();
-        String json = "";
-        try {
-            json = map.writeValueAsString(service.addTask(task));
-        }catch (JsonProcessingException e) {
-            return Util.createResponseEntity("Failed", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return Util.createResponseEntity(json, HttpStatus.OK);
+    public Task addTask(@RequestBody Task task, HttpServletRequest req) {
+        String user = req.getUserPrincipal().getName();
+        return service.addTask(task, user);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/tasks/markDone/{id}")
-    public ResponseEntity<?> markDone(@PathVariable String id) {
-        return new ResponseEntity<>(service.markDone(id), HttpStatus.OK);
+    public String markDone(@PathVariable String id, HttpServletRequest req) {
+        String user = req.getUserPrincipal().getName();
+        return service.markDone(Integer.parseInt(id), user);
     }
+
 }
