@@ -18,6 +18,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Optional<User> userOptional = repo.findByUsername(s);
         userOptional.orElseThrow(() -> new UsernameNotFoundException("Not found "+s));
+        System.out.println(userOptional.get().getUsername());
         User user = userOptional.get();
         return new MyUserDetails(user);
     }
