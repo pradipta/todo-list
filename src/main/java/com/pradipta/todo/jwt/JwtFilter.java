@@ -19,8 +19,6 @@ import java.io.IOException;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    @Getter
-    private String username;
 
     @Autowired
     private MyUserDetailsService myUserDetailsService;
@@ -31,6 +29,8 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String authorization = request.getHeader("Authorization");
+
+        String username = null;
 
         String jwt = null;
         if (authorization != null && authorization.startsWith("Bearer")) {
