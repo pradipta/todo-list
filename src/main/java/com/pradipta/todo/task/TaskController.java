@@ -50,5 +50,4 @@ public class TaskController {
         String user = req.getUserPrincipal().getName();
         return service.markDone(Integer.parseInt(id), user);
     }
-
 }

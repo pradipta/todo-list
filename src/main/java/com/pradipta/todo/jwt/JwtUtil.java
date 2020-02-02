@@ -1,8 +1,11 @@
 package com.pradipta.todo.jwt;
 
+import com.pradipta.todo.jedis.JwtCheckRepositoryImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,10 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil {
+
+    @Autowired
+    private JwtCheckRepositoryImpl repo;
+
     public String SECRET_KEY = "secret";
 
     public String extractUsername(String token){
@@ -49,6 +56,10 @@ public class JwtUtil {
 
     public Boolean validateToken(String token, UserDetails userDetails){
         final String username = extractUsername(token);
+        if (!repo.getJwtStatus(token)) {
+            return false;
+        }
+
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
