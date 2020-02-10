@@ -19,17 +19,19 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class AuthController {
-    @Autowired
+
     private AuthenticationManager authenticationManager;
-
-    @Autowired
     private MyUserDetailsService userDetailsService;
-
-    @Autowired
     private JwtUtil jwtUtil;
+    private JwtCheckRepositoryImpl repo;
 
     @Autowired
-    private JwtCheckRepositoryImpl repo;
+    public AuthController(AuthenticationManager authenticationManager, MyUserDetailsService userDetailsService, JwtUtil jwtUtil, JwtCheckRepositoryImpl repo) {
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+        this.jwtUtil = jwtUtil;
+        this.repo = repo;
+    }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public AuthenticationResponse authenticate(@RequestBody AuthenticationRequest request) throws Exception {
@@ -66,6 +68,6 @@ public class AuthController {
             System.out.println(ex);
         }
 
-        return "User "+username+" successfully loggoed out";
+        return "User " + username + " successfully loggoed out";
     }
 }
